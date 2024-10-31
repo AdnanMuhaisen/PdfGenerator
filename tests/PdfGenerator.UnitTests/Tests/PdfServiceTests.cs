@@ -7,9 +7,9 @@ namespace PdfGenerator.UnitTests.Tests;
 public class PdfServiceTests
 {
     [Theory]
-    [InlineData("SimpleTemplate.html")]
-    [InlineData("ComplexTemplate.html")]
-    public async Task GenerateAsync_GenerateSimplePdfDocument_ShouldReturnPdfDocument(string fileName)
+    [InlineData("SimpleTemplate.html", 300)]
+    [InlineData("ComplexTemplate.html", 300)]
+    public async Task GenerateAsync_GenerateSimplePdfDocument_ShouldReturnPdfDocument(string fileName, int dpi)
     {
         // Arrange
         var workingDirectory = Directory.GetParent(Assembly.GetExecutingAssembly().Location)!
@@ -23,7 +23,7 @@ public class PdfServiceTests
         var fileContent = await File.ReadAllTextAsync(templatePath);
 
         //Act
-        var pdfFileBytes = await pdfService.GenerateAsync(fileContent);
+        var pdfFileBytes = await pdfService.GenerateAsync(fileContent, dpi);
 
         // Assert
         pdfFileBytes
