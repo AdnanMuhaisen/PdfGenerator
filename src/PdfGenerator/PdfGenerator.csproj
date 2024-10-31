@@ -16,4 +16,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="1.1.2" />
+  </ItemGroup>
+
 </Project>

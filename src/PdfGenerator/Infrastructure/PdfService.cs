@@ -1,4 +1,5 @@
 ﻿using PdfGenerator.Core.Interfaces;
+using PdfGenerator.Validators;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
@@ -9,9 +10,14 @@ public sealed class PdfService : IPdfService
 {
     public async Task<byte[]> GenerateAsync(string htmlContent, int dpi = 180, CancellationToken cancellationToken = default)
     {
+        if (!await HtmlValidator.IsValidHtmlContentAsync(htmlContent))
+        {
+            throw new InvalidOperationException("Invalid Content!");
+        }
+
         string workingDirectory = Directory.GetParent(Assembly.GetExecutingAssembly().Location)!.FullName;
         string wkhtmltopdfExecutableFilePath = Path.Combine(workingDirectory, "Core\\Executables\\wkhtmltopdf.exe");
-        StringBuilder argumentsBuilder = new("-q -n ");
+        StringBuilder argumentsBuilder = new("-q -n " + "" + " - -");
 
         argumentsBuilder.Insert(0, $"--dpi {dpi} ");
 
