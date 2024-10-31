@@ -1,23 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageId>AdnanMuhaisen-PdfGenerator</PackageId>
+		<Title>An efficient html to pdf generator</Title>
+		<Authors>Adnan Muhaisen</Authors>
+		<Company>-</Company>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Core\Executables\wkhtmltopdf.exe" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Core\Executables\wkhtmltopdf.exe" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Core\Executables\wkhtmltopdf.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Core\Executables\wkhtmltopdf.exe">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AngleSharp" Version="1.1.2" />
-  </ItemGroup>
+	<ItemGroup>
+	  <None Include="..\..\SolutionItems\README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AngleSharp" Version="1.1.2" />
+	</ItemGroup>
 
 </Project>

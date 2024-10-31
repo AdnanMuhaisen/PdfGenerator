@@ -8,6 +8,14 @@ namespace PdfGenerator.Infrastructure;
 
 public sealed class PdfService : IPdfService
 {
+    /// <summary>
+    /// Generates a PDF document from the given HTML content.
+    /// </summary>
+    /// <param name="htmlContent">The HTML content to convert to PDF.</param>
+    /// <param name="dpi">The DPI resolution of the generated PDF. Default is 180.</param>
+    /// <param name="cancellationToken">A token to observe cancellation requests.</param>
+    /// <returns>A byte array representing the generated PDF document.</returns>
+    /// <exception cref="InvalidOperationException">Thrown if the provided HTML content is invalid.</exception>
     public async Task<byte[]> GenerateAsync(string htmlContent, int dpi = 180, CancellationToken cancellationToken = default)
     {
         if (!await HtmlValidator.IsValidHtmlContentAsync(htmlContent))
