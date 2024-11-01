@@ -1,43 +1,61 @@
-# PDF Generator
+# WhuPdfGenerator
 
-A simple and efficient NuGet package to convert HTML to PDF.
+WhuPdfGenerator is a .NET library designed for generating PDF files from HTML content. It converts an HTML string into a PDF file represented as a byte array, which can be easily saved, sent, or displayed.
+
+## Features
+
+- Simple and fast HTML-to-PDF conversion
+- Outputs PDF as a byte array for flexible usage
+- Ideal for dynamic content generation such as invoices, reports, and more
 
 ## Installation
 
-Install the package from NuGet:
+Install WhuPdfGenerator via NuGet Package Manager:
 
-Bash
-dotnet add package PdfGenerator
+```bash
+dotnet add package WhuPdfGenerator
+```
 
-Use code with caution.
+Or install directly from the NuGet Package Manager UI in Visual Studio.
 
 ## Usage
 
+To use WhuPdfGenerator, include the library in your project and pass your HTML string to the generator to produce a PDF as a byte array.
+
+#### Example
+
 ```csharp
-C#
-using HtmlToPdfConverter;
+using PdfGenerator.Infrastructure;
 
-// ...
+// Sample HTML content
+string htmlContent = """
+    <html>
+        <body>
+            <h1>Hello, World!</h1>
+            <p>This is a sample PDF document generated from HTML.</p>
+        </body>
+    </html>
+    """;
 
-var generator = new PdfGenerator();
-byte[] pdfBytes = await generator.GenerateAsync(htmlContent, dpi: 300);
+// Generate PDF as byte array
+var pdfService = new PdfService();
+var pdfBytes = await pdfService.GenerateAsync(htmlContent, 300);
 
 // Save the PDF to a file
-File.WriteAllBytes("output.pdf", pdfBytes);
+string filePath = "output.pdf";
+System.IO.File.WriteAllBytes(filePath, pdfBytes);
+
+Console.WriteLine($"PDF generated successfully and saved to {filePath}");
 ```
 
-Use code with caution.
+### Method
 
-## Customization
+```csharp
+Task<byte[]> GenerateAsync(string htmlContent, int dpi = 180, CancellationToken cancellationToken = default)
+```
 
-DPI: Customize the output PDF's DPI resolution using the dpi parameter in GenerateAsync.
+Accepts an HTML string as input and returns a PDF document as a byte array.
 
 ## License
 
-This package is licensed under the MIT License.
-
-Note:
-
-wkhtmltopdf: This is a third-party tool, and its licensing terms apply.
-Error Handling: GenerateAsync throws an InvalidOperationException for invalid HTML or errors during PDF generation.
-For more details and customization options, refer to the HtmlToPdfConverter class documentation.
+This project is licensed under the MIT License.
