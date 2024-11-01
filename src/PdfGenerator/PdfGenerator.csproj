@@ -12,7 +12,7 @@
 		<Company>-</Company>
 		<Description>WhuPdfGenerator is a lightweight PDF generation library for .NET that converts HTML content into a PDF file in byte array format. This library is ideal for applications that need to dynamically generate PDFs from HTML templates, such as reports, invoices, or user-generated content. Simply provide an HTML string to the library, and WhuPdfGenerator will handle the rest, outputting a ready-to-use PDF file in byte format.</Description>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-		<Version>1.0.3</Version>
+		<Version>1.0.4</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
