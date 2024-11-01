@@ -8,6 +8,8 @@ namespace PdfGenerator.Infrastructure;
 
 public sealed class PdfService : IPdfService
 {
+    private readonly object _locker = new();
+
     /// <summary>
     /// Generates a PDF document from the given HTML content.
     /// </summary>
@@ -23,21 +25,28 @@ public sealed class PdfService : IPdfService
             throw new InvalidOperationException("Invalid Content!");
         }
 
-        string workingDirectory = Directory.GetParent(Assembly.GetExecutingAssembly().Location)!.FullName;
-        string wkhtmltopdfExecutableFilePath = Path.Combine(workingDirectory, "Core\\Executables\\wkhtmltopdf.exe");
-        StringBuilder argumentsBuilder = new("-q -n " + "" + " - -");
+        var assembly = Assembly.GetExecutingAssembly();
+        var wkhtmltopdfEmbededFileName = "PdfGenerator.Core.Executables.wkhtmltopdf.exe";
+        var outputFilePath = Path.Combine(Path.GetTempPath(), "wkhtmltopdf.exe");
 
+        using var stream = assembly.GetManifestResourceStream(wkhtmltopdfEmbededFileName) ?? throw new InvalidOperationException("can not find the embeded resource");
+        using (var fileStream = new FileStream(outputFilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+        {
+            stream.CopyTo(fileStream);
+        }
+
+        StringBuilder argumentsBuilder = new("-q -n " + "" + " - -");
         argumentsBuilder.Insert(0, $"--dpi {dpi} ");
 
         ProcessStartInfo processStartInfo = new()
         {
             CreateNoWindow = true,
             UseShellExecute = false,
+            FileName = outputFilePath,
             RedirectStandardError = true,
             RedirectStandardInput = true,
             RedirectStandardOutput = true,
-            Arguments = argumentsBuilder.ToString(),
-            FileName = wkhtmltopdfExecutableFilePath
+            Arguments = argumentsBuilder.ToString()
         };
 
         using var process = Process.Start(processStartInfo)!;
@@ -52,8 +61,6 @@ public sealed class PdfService : IPdfService
         if (!string.IsNullOrEmpty(errors))
         {
             Debug.WriteLine(errors);
-
-            return [];
         }
 
         return pdfStream.ToArray();
